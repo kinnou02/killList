@@ -47,11 +47,6 @@ local function death(handle, info)
         KL.killed[unit.type] = {lastKill = Inspect.Time.Server()}
     end
 end
-	
--- Addon initialisation
-local function init()
-	--Command.Event.Attach(Event.Combat.Death, death, "KillList_death")
-end
 
 local function resetTime()
     local offset = os.time() - os.time(os.date("!*t", Inspect.Time.Server()))
@@ -64,12 +59,11 @@ local function resetTime()
     return lastReset
 end
 
--- display LuaPad
+
 local function killed()
     local allkilled = true
     local msg = "You still have to kill: \n"
     local lastReset = resetTime()
-    print(lastReset)
     for k, v in pairs(KL.rares) do
         local kill = KL.killed[k]
         if not kill or kill.lastKill < lastReset then
@@ -85,29 +79,24 @@ local function killed()
 end
 
 local function loadSavedVariables(addon)
-
-  if addon == "KillList" then
-      if KL_killed == nil then
-          KL.killed = {}
-      else
-          KL.killed = KL_killed
-      end
+    if addon == "KillList" then
+        if KL_killed == nil then
+            KL.killed = {}
+        else
+            KL.killed = KL_killed
+        end
     end
 end
 
 local function saveSavedVariables(addon)
-  if addon == "KillList" then
-    KL_killed = KL.killed
-   end
+    if addon == "KillList" then
+        KL_killed = KL.killed
+    end
 end
 
 
--- Register the slash commands
+-- Register the slash commands and events
 table.insert(Event.Addon.SavedVariables.Load.End, {loadSavedVariables, "KillList", "Load variables"})
 table.insert(Event.Addon.SavedVariables.Save.Begin, {saveSavedVariables, "KillList", "Save variables"})
 Command.Event.Attach(Event.Combat.Death, death, "KillList_death_handler")
 table.insert(Command.Slash.Register("killlist"), {killed, "KillList", "display VP rares not yet killed today"})
-
-
--- initialisation
-init()

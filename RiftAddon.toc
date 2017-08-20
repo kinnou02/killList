@@ -1,0 +1,27 @@
+Identifier = "KillList"
+
+Name = {
+  English = "KillList",
+  French = "KillList",
+  German = "KillList",
+}
+
+NameShort = "KillList"
+
+Description = {
+  English = "List the rares from Vostigar pic that you didn't yet kill today: use /killlist"
+}
+
+Author = "Wicendawen@brisesol"
+Website = ""
+Version = "0.1"
+Email = "alexandre.jacquin@gmail.com"
+
+Environment = "4.2"
+
+RunOnStartup = {
+	"main.lua"
+}
+SavedVariables = {
+	KL_killed = "character",
+}

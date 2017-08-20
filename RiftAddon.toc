@@ -9,13 +9,13 @@ Name = {
 NameShort = "KillList"
 
 Description = {
-  English = "List the rares from Vostigar pic that you didn't yet kill today: use /killlist"
+  English = "List the rares from Vostigar peaks that you didn't yet kill today.\nUse /killlist to display the list of rares remaining"
 }
 
-Author = "Wicendawen@brisesol"
+Author = "Wicendawen@brisesol / kinou"
 Website = ""
-Version = "0.1"
-Email = "alexandre.jacquin@gmail.com"
+Version = "0.2"
+Email = "alexandre.jacquin+rift@rilynett.com"
 
 Environment = "4.2"
 

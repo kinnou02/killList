@@ -14,8 +14,8 @@ Description = {
 
 Author = "Wicendawen@brisesol / kinou"
 Website = ""
-Version = "0.2"
-Email = "alexandre.jacquin+rift@rilynett.com"
+Version = "0.3"
+Email = "alexandre.jacquin+rift@gmail.com"
 
 Environment = "4.2"
 
@@ -24,4 +24,5 @@ RunOnStartup = {
 }
 SavedVariables = {
 	KL_killed = "character",
+	KL_debug = "account",
 }

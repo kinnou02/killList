@@ -45,6 +45,8 @@ local function death(handle, info)
     if unit.tagged == true and KL.rares[unit.type] then
         Command.Console.Display("general", false, "you just killed a rare: " .. unit.name, false)
         KL.killed[unit.type] = {lastKill = Inspect.Time.Server()}
+    elseif KL.debug and KL.rares[unit.type] then
+        dump(KL.rares[unit.type])
     end
 end
 
@@ -55,7 +57,10 @@ local function resetTime()
     if lastReset > Inspect.Time.Server() then
         -- reset time is on the futur, so we move it back from a day
         lastReset = lastReset - (60*60*24)
-    end 
+    end
+    if KL.debug then
+        print("last reset: " .. os.date("%c", lastReset))
+    end
     return lastReset
 end
 
@@ -78,25 +83,45 @@ local function killed()
     end
 end
 
-local function loadSavedVariables(addon)
+local function loadSavedVariables(h, addon)
     if addon == "KillList" then
         if KL_killed == nil then
             KL.killed = {}
         else
             KL.killed = KL_killed
         end
+        if KL_debug == nil then
+            KL.debug = false
+        else
+            KL.debug = KL_debug
+        end
+        
     end
 end
 
-local function saveSavedVariables(addon)
+local function saveSavedVariables(h, addon)
     if addon == "KillList" then
         KL_killed = KL.killed
+        KL_debug = KL.debug
+    end
+end
+
+local function killList(h, args)
+    if args:find("debug") then
+        KL.debug = not KL.debug
+        if KL.debug then
+            Command.Console.Display("general", false, "debug activated", false)
+        else
+            Command.Console.Display("general", false, "debug deactivated", false)
+        end
+    else
+        killed()
     end
 end
 
 
 -- Register the slash commands and events
-table.insert(Event.Addon.SavedVariables.Load.End, {loadSavedVariables, "KillList", "Load variables"})
-table.insert(Event.Addon.SavedVariables.Save.Begin, {saveSavedVariables, "KillList", "Save variables"})
+Command.Event.Attach(Event.Addon.SavedVariables.Load.End, loadSavedVariables, "Load variables")
+Command.Event.Attach(Event.Addon.SavedVariables.Save.Begin, saveSavedVariables, "Save variables")
 Command.Event.Attach(Event.Combat.Death, death, "KillList_death_handler")
-table.insert(Command.Slash.Register("killlist"), {killed, "KillList", "display VP rares not yet killed today"})
+Command.Event.Attach(Command.Slash.Register("killlist"), killList, "display VP rares not yet killed today")

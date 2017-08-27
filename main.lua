@@ -1,4 +1,5 @@
-local KL = ...
+local toc, KL = ...
+local AddonId = toc.identifier
 
 KL.rares = {
     ["U1AD8C1573848F38B"] = {name = "Sleet Stalker"},
@@ -38,6 +39,8 @@ KL.rares = {
     ["U1AD8C1562F12C8BA"] = {name = "Experiment Alpha-2"},
     ["U522B0D87291475C2"] = {name = "Alsbeth the Discordant"},
 }
+
+KL.context = UI.CreateContext("KillList")
 
 
 local function death(handle, info)
@@ -114,7 +117,53 @@ local function killList(h, args)
         else
             Command.Console.Display("general", false, "debug deactivated", false)
         end
-    else
+    elseif args:find("show") then
+        KL.frame = UI.CreateFrame("SimpleWindow", "testframe", KL.context)
+        -- Set the frame to the top center of the game --
+        KL.frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, 100)
+        KL.frame:SetVisible(true)
+        KL.frame:SetLayer(1)
+        KL.frame:SetAlpha(0.8)
+        KL.frame:SetCloseButtonVisible(true)
+        
+        
+        local listScrollView = UI.CreateFrame("SimpleScrollView", "SWT_TestScrollView", KL.frame)
+        listScrollView:SetPoint("TOPLEFT", KL.frame, "TOPLEFT", 20, 55)
+        listScrollView:SetWidth(370)
+        listScrollView:SetHeight(480)
+        --listScrollView:SetBorder(1, 1, 1, 1, 1)
+        
+        local grid = UI.CreateFrame("SimpleGrid", "MyGrid", listScrollView)
+        grid:SetPoint("TOPLEFT", listScrollView, "TOPLEFT")
+        grid:SetBackgroundColor(0, 0, 0, 0)
+        grid:SetWidth(KL.frame:GetWidth())
+        grid:SetHeight(KL.frame:GetHeight())
+        grid:SetMargin(1)
+        grid:SetCellPadding(1)
+        local lastReset = resetTime()
+        local killed_rows = {}
+        for k, v in pairs(KL.rares) do
+            local cellName = UI.CreateFrame("Text", "Cell", grid)
+            cellName:SetText(v.name)
+            
+            local kill = KL.killed[k]
+            if not kill or kill.lastKill < lastReset then
+                local cellStatus = UI.CreateFrame("Text", "Cell", grid)
+                cellStatus:SetText("  ")
+                grid:AddRow({cellName, cellStatus})
+            else
+                local cellStatus = UI.CreateFrame("Texture", "cellstatus", grid)
+				cellStatus:SetTexture( AddonId, "textures/ok.png" )
+                table.insert(killed_rows, {cellName, cellStatus})
+            end
+
+        end
+        for _,v in pairs(killed_rows) do
+            grid:AddRow(v)
+        end
+        listScrollView:SetContent(grid)
+        
+    else    
         killed()
     end
 end

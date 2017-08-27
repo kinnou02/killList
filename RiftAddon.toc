@@ -26,3 +26,11 @@ SavedVariables = {
 	KL_killed = "character",
 	KL_debug = "account",
 }
+
+Embed = {
+	LibSimpleWidgets = true,
+}
+
+Dependencies = {
+	LibSimpleWidgets = {"required", "before"},
+}

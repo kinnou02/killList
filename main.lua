@@ -1,4 +1,5 @@
-local KL = ...
+local toc, KL = ...
+local AddonId = toc.identifier
 
 KL.rares = {
     ["U1AD8C1573848F38B"] = {name = "Sleet Stalker"},
@@ -39,12 +40,15 @@ KL.rares = {
     ["U522B0D87291475C2"] = {name = "Alsbeth the Discordant"},
 }
 
+KL.context = UI.CreateContext("KillList")
+
 
 local function death(handle, info)
     local unit = Inspect.Unit.Detail(info.target)
     if unit.tagged == true and KL.rares[unit.type] then
         Command.Console.Display("general", false, "you just killed a rare: " .. unit.name, false)
         KL.killed[unit.type] = {lastKill = Inspect.Time.Server()}
+        KL.rares[unit.type].row[1]:SetTexture("Rift", "raid_icon_ready.png.dds")
     elseif KL.debug and KL.rares[unit.type] then
         dump(KL.rares[unit.type])
     end
@@ -106,6 +110,69 @@ local function saveSavedVariables(h, addon)
     end
 end
 
+local function init()
+    KL.frame = UI.CreateFrame("SimpleWindow", "testframe", KL.context)
+    -- Set the frame to the top center of the game --
+    KL.frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, 100)
+    KL.frame:SetVisible(false)
+    KL.frame:SetLayer(1)
+    KL.frame:SetAlpha(0.8)
+    KL.frame:SetCloseButtonVisible(true)
+    
+    
+    KL.listScrollView = UI.CreateFrame("SimpleScrollView", "SWT_TestScrollView", KL.frame)
+    KL.listScrollView:SetPoint("TOPLEFT", KL.frame, "TOPLEFT", 20, 55)
+    KL.listScrollView:SetWidth(370)
+    KL.listScrollView:SetHeight(480)
+    
+    KL.grid = UI.CreateFrame("SimpleGrid", "MyGrid", KL.listScrollView)
+    KL.grid:SetPoint("TOPLEFT", KL.listScrollView, "TOPLEFT")
+    KL.grid:SetBackgroundColor(0, 0, 0, 0)
+    KL.grid:SetWidth(KL.frame:GetWidth())
+    KL.grid:SetHeight(KL.frame:GetHeight())
+    KL.grid:SetMargin(1)
+    KL.grid:SetCellPadding(1)
+    
+    local lastReset = resetTime()
+    for k, v in pairs(KL.rares) do
+        local cellName = UI.CreateFrame("Text", "Cell", KL.grid)
+        cellName:SetText(v.name)
+        local cellStatus = UI.CreateFrame("Texture", "cellstatus", KL.grid)
+        local kill = KL.killed[k]
+        if not kill or kill.lastKill < lastReset then
+            cellStatus:SetTexture("Rift", "raid_icon_notready.png.dds")
+        else
+            cellStatus:SetTexture("Rift", "btn_video_done.png.dds")
+        end
+        v.row = {cellStatus, cellName}
+        KL.grid:AddRow(v.row)
+    end
+    KL.listScrollView:SetContent(KL.grid)    
+end
+
+local function rowComp(a, b)
+    local _, at = a[1]:GetTexture()
+    local _, bt = b[1]:GetTexture()
+    return at > bt
+end
+
+local function show()       
+    KL.frame:SetVisible(true)
+    local lastReset = resetTime()
+    local killed_rows = {}
+    for k, v in pairs(KL.rares) do
+        local kill = KL.killed[k]
+        if not kill or kill.lastKill < lastReset then
+            v.row[1]:SetTexture("Rift", "raid_icon_notready.png.dds")
+        else
+            v.row[1]:SetTexture("Rift", "btn_video_done.png.dds")
+        end
+    end
+    local rows = KL.grid:GetRows()
+    table.sort(rows, rowComp)
+    KL.grid:SetRows(rows)
+end
+
 local function killList(h, args)
     if args:find("debug") then
         KL.debug = not KL.debug
@@ -114,8 +181,10 @@ local function killList(h, args)
         else
             Command.Console.Display("general", false, "debug deactivated", false)
         end
-    else
+    elseif args:find("cli") then
         killed()
+    else
+        show()
     end
 end
 
@@ -125,3 +194,4 @@ Command.Event.Attach(Event.Addon.SavedVariables.Load.End, loadSavedVariables, "L
 Command.Event.Attach(Event.Addon.SavedVariables.Save.Begin, saveSavedVariables, "Save variables")
 Command.Event.Attach(Event.Combat.Death, death, "KillList_death_handler")
 Command.Event.Attach(Command.Slash.Register("killlist"), killList, "display VP rares not yet killed today")
+Command.Event.Attach(Event.Addon.Load.End, init, "initialize display")

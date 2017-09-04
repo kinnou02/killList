@@ -1,0 +1,18 @@
+lightweight tag a937e674a26f9535f60f52c281eb99d151b7fb68 v0.5
+Author:	Alexandre Jacquin <kinou@rilynett.com>
+Date:	Sat Sep 2 11:49:01 2017 +0200
+
+commit a937e674a26f9535f60f52c281eb99d151b7fb68
+Author: Alexandre Jacquin <kinou@rilynett.com>
+Date:   Sat Sep 2 11:49:01 2017 +0200
+
+    bump version 0.5
+
+commit 739d8b7e483611d3e745ff9a3ba42a009954bd49
+Author: Alexandre Jacquin <kinou@rilynett.com>
+Date:   Sun Aug 27 22:01:51 2017 +0200
+
+    Add an UI in place of the console display
+    
+    It works but some refactoring is needed
+

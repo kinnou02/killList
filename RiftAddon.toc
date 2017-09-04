@@ -9,7 +9,21 @@ Name = {
 NameShort = "KillList"
 
 Description = {
-  English = "List the rares from Vostigar peaks that you didn't yet kill today.\nUse /killlist to display the list of rares remaining"
+	English = [[List the rares from Vostigar peaks that you didn't yet kill today.
+
+Use /killlist to display the list of rares remaining.
+
+Use /klbutton to enable or disable the button.]],
+	French = [[Liste les rares des pics de Vostigar que vous n'avez pas encore tué aujourd'hui.
+
+Utilisez /killlist pour afficher la liste des rares restants.
+
+Utilisez /klbutton pour activer où désactiver le bouton.]],
+	German = [[Liste der Rares von Vostigar-Gipfeln, die du heute noch nicht getötet hast.
+
+Verwenden Sie /killlist um die Liste der verbleibenden Rares anzuzeigen.
+
+Verwenden Sie /klbutton um die Schaltfläche zu aktivieren oder zu deaktivieren.]],
 }
 
 Author = "Wicendawen@brisesol / kinou"
@@ -20,15 +34,21 @@ Email = "alexandre.jacquin+rift@gmail.com"
 Environment = "4.2"
 
 RunOnStartup = {
-	"main.lua"
+	"Plugin/buttonDrag.lua",
+	"Plugin/Translate.lua",
+	"Plugin/Lang/en.lua",
+	"Plugin/Lang/fr.lua",
+	"main.lua",
 }
 SavedVariables = {
 	KL_killed = "character",
 	KL_debug = "account",
+	KL_mouseData = "character",
+	KL_buttonActive = "character",
 }
 
 Embed = {
-	LibSimpleWidgets = true,
+	["Plugin/LibSimpleWidgets"] = true,
 }
 
 Dependencies = {

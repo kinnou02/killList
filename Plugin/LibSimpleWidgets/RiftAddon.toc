@@ -4,28 +4,35 @@ Name = {
   English = "Simple Widgets Library",
 }
 
-NameShort = "LW"
+NameShort = "LSW"
 
 Description = {
   English = "Library of simple GUI widgets for use by other addons.",
 }
 
 Author = "Gordon Tyler"
-Website = "http://www.riftui.com/"
-Version = "1.0"
+Website = "http://www.riftui.com/downloads/info108-LibSimpleWidgets.html"
+Version = "1.14.5"
 Email = "gordon@doxxx.net"
-Environment = "1.5"
+Environment = "2.5"
 
 RunOnStartup = {
   "main.lua",
+  "eventproxy.lua",
   "border.lua",
   "scrollview.lua",
   "window.lua",
   "select.lua",
   "list.lua",
+  "textarea.lua",
+  "checkbox.lua",
+  "slider.lua",
+  "tabview.lua",
+  "tooltip.lua",
+  "radiobutton.lua",
+  "radiobuttongroup.lua",
+  "scrolllist.lua",
+  "grid.lua",
   "uicreateframe.lua",
+  "layout.lua",
 }
--- X-Curse-Packaged-Version: 1.8
--- X-Curse-Project-Name: LuaPad
--- X-Curse-Project-ID: luapad
--- X-Curse-Repository-ID: rift/luapad/mainline

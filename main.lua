@@ -1,5 +1,6 @@
 local toc, KL = ...
 local AddonId = toc.identifier
+local Lang = Library.Translate
 
 KL.rares = {
     ["U1AD8C1573848F38B"] = {name = "Sleet Stalker"},
@@ -42,11 +43,10 @@ KL.rares = {
 
 KL.context = UI.CreateContext("KillList")
 
-
 local function death(handle, info)
     local unit = Inspect.Unit.Detail(info.target)
     if unit.tagged == true and KL.rares[unit.type] then
-        Command.Console.Display("general", false, "you just killed a rare: " .. unit.name, false)
+        Command.Console.Display("general", false, Lang.JUSTKILLED .. unit.name, false)
         KL.killed[unit.type] = {lastKill = Inspect.Time.Server()}
         KL.rares[unit.type].row[1]:SetTexture("Rift", "raid_icon_ready.png.dds")
     elseif KL.debug and KL.rares[unit.type] then
@@ -63,15 +63,14 @@ local function resetTime()
         lastReset = lastReset - (60*60*24)
     end
     if KL.debug then
-        print("last reset: " .. os.date("%c", lastReset))
+        print(Lang.LASTRESET .. os.date("%c", lastReset))
     end
     return lastReset
 end
 
-
 local function killed()
     local allkilled = true
-    local msg = "You still have to kill: \n"
+    local msg = Lang.STILLKILL
     local lastReset = resetTime()
     for k, v in pairs(KL.rares) do
         local kill = KL.killed[k]
@@ -81,14 +80,14 @@ local function killed()
         end
     end
     if(allkilled) then
-        Command.Console.Display("general", false, "All rares have been kill for today", false)
+        Command.Console.Display("general", false, Lang.ALLRAREKILLED, false)
     else
         Command.Console.Display("general", false, msg, true)
     end
 end
 
 local function loadSavedVariables(h, addon)
-    if addon == "KillList" then
+    if addon == AddonId then
         if KL_killed == nil then
             KL.killed = {}
         else
@@ -99,33 +98,49 @@ local function loadSavedVariables(h, addon)
         else
             KL.debug = KL_debug
         end
-        
+        if KL_mouseData == nil then
+            KL_mouseData = {
+                x = 0,
+                y = 0
+            }
+        end
+        if KL_buttonActive == nil then
+            KL_buttonActive = true
+        else
+            KL_buttonActive = KL_buttonActive
+        end
     end
 end
 
 local function saveSavedVariables(h, addon)
-    if addon == "KillList" then
-        KL_killed = KL.killed
-        KL_debug = KL.debug
+    if addon == AddonId then
+        KL_killed       = KL.killed
+        KL_debug        = KL.debug
+        KL_mouseData    = KL_mouseData
+        KL_buttonActive = KL_buttonActive
     end
 end
 
 local function init()
-    KL.frame = UI.CreateFrame("SimpleWindow", "testframe", KL.context)
+    KL.frame = UI.CreateFrame("SimpleWindow", AddonId.."_KLframe", KL.context)
     -- Set the frame to the top center of the game --
     KL.frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, 100)
     KL.frame:SetVisible(false)
     KL.frame:SetLayer(1)
-    KL.frame:SetAlpha(0.8)
-    KL.frame:SetCloseButtonVisible(true)
+    KL.frame:SetAlpha(1)
+    KL.frame:SetCloseButtonVisible(true) 
+
+    KL.buttonMovable(KL.frame, KL.context)
+
+    -- Ajout du titre de la fenêtre -- 
+    KL.frame:SetTitle(AddonId)  
     
-    
-    KL.listScrollView = UI.CreateFrame("SimpleScrollView", "SWT_TestScrollView", KL.frame)
+    KL.listScrollView = UI.CreateFrame("SimpleScrollView", AddonId.."_listScrollView", KL.frame)
     KL.listScrollView:SetPoint("TOPLEFT", KL.frame, "TOPLEFT", 20, 55)
     KL.listScrollView:SetWidth(370)
     KL.listScrollView:SetHeight(480)
     
-    KL.grid = UI.CreateFrame("SimpleGrid", "MyGrid", KL.listScrollView)
+    KL.grid = UI.CreateFrame("SimpleGrid", AddonId.."_MyGrid", KL.listScrollView)
     KL.grid:SetPoint("TOPLEFT", KL.listScrollView, "TOPLEFT")
     KL.grid:SetBackgroundColor(0, 0, 0, 0)
     KL.grid:SetWidth(KL.frame:GetWidth())
@@ -135,9 +150,9 @@ local function init()
     
     local lastReset = resetTime()
     for k, v in pairs(KL.rares) do
-        local cellName = UI.CreateFrame("Text", "Cell", KL.grid)
+        local cellName = UI.CreateFrame("Text", AddonId.."_Cell", KL.grid)
         cellName:SetText(v.name)
-        local cellStatus = UI.CreateFrame("Texture", "cellstatus", KL.grid)
+        local cellStatus = UI.CreateFrame("Texture", AddonId.."_cellstatus", KL.grid)
         local kill = KL.killed[k]
         if not kill or kill.lastKill < lastReset then
             cellStatus:SetTexture("Rift", "raid_icon_notready.png.dds")
@@ -147,7 +162,10 @@ local function init()
         v.row = {cellStatus, cellName}
         KL.grid:AddRow(v.row)
     end
-    KL.listScrollView:SetContent(KL.grid)    
+    KL.listScrollView:SetContent(KL.grid)
+
+    -- Création du bouton déplaçable --
+    KL.buttonMover("KL.Button", KL.context, KL.frame, AddonId, "Textures/ButtonUp.png", AddonId, "Textures/ButtonDown.png", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
 end
 
 local function rowComp(a, b)
@@ -177,14 +195,26 @@ local function killList(h, args)
     if args:find("debug") then
         KL.debug = not KL.debug
         if KL.debug then
-            Command.Console.Display("general", false, "debug activated", false)
+            Command.Console.Display("general", false, Lang.DEBUGON, false)
         else
-            Command.Console.Display("general", false, "debug deactivated", false)
+            Command.Console.Display("general", false, Lang.DEBUGOFF, false)
         end
     elseif args:find("cli") then
         killed()
     else
         show()
+    end
+end
+
+local function klButton()
+    if KL_buttonActive == false then
+        KL_buttonActive = true
+        Command.Console.Display("general", false, Lang.KLBUTTONACTIVE, false)
+        KL.PopUp("KL.context", Lang.NEEDUIRELOAD, 14, "/reloadui")
+    else
+        KL_buttonActive = false
+        Command.Console.Display("general", false, Lang.KLBUTTONNOTACTIVE, false)
+        KL.PopUp("KL.context", Lang.NEEDUIRELOAD, 14, "/reloadui")
     end
 end
 
@@ -194,4 +224,5 @@ Command.Event.Attach(Event.Addon.SavedVariables.Load.End, loadSavedVariables, "L
 Command.Event.Attach(Event.Addon.SavedVariables.Save.Begin, saveSavedVariables, "Save variables")
 Command.Event.Attach(Event.Combat.Death, death, "KillList_death_handler")
 Command.Event.Attach(Command.Slash.Register("killlist"), killList, "display VP rares not yet killed today")
+Command.Event.Attach(Command.Slash.Register("klbutton"), klButton, "Turn on/off button")
 Command.Event.Attach(Event.Addon.Load.End, init, "initialize display")

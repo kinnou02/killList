@@ -32,7 +32,7 @@ KL.rares = {
     ["U1AD8C159599F79EE"] = {name = Lang.FRIGIDCLAW},
     ["U522B0D894AB8E321"] = {name = Lang.TEKNHA},
     ["U1AD8C15E25AC1033"] = {name = Lang.C2A2BATTLEMODEL},
-    ["U0ED05A237D90D33A"] = {name = Lang.ELIMINATUSPRIME},
+    ["U0ED05A237D90D33A"] = {name = Lang.ELIMINATUSPRIME}, -- petit probleme quand on le tue mais que quelqu'un l'avait deja pull. il ne compte pas dans la liste --
     ["U1AD8C16150294167"] = {name = Lang.BLOODSERAPHRIANCHA},
     ["U1AD8C15848A6B699"] = {name = Lang.FROSTPAW},
     ["U1AD8C1551E2405B5"] = {name = Lang.AIICHAK},
@@ -128,11 +128,7 @@ local function init()
     KL.frame:SetVisible(false)
     KL.frame:SetLayer(1)
     KL.frame:SetAlpha(1)
-    KL.frame:SetCloseButtonVisible(true) 
-
-    KL.buttonMovable(KL.frame, KL.context)
-
-    -- Ajout du titre de la fenêtre -- 
+    KL.frame:SetCloseButtonVisible(true)
     KL.frame:SetTitle(AddonId)  
     
     KL.listScrollView = UI.CreateFrame("SimpleScrollView", AddonId.."_listScrollView", KL.frame)
@@ -175,12 +171,13 @@ local function rowComp(a, b)
 end
 
 local function show()
-    -- Affiche ou non la fenêtre --
+    -- Affiche ou non de la fenêtre --
     if not KL.frame.visible then
         KL.frame:SetVisible(true)
     else
         KL.frame:SetVisible(false)
-    end    
+    end
+    -- inverse l'affichage -- 
     KL.frame.visible = not KL.frame.visible 
 
     local lastReset = resetTime()

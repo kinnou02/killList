@@ -149,9 +149,9 @@ local function init(h, addon)
     
     local lastReset = resetTime()
     for k, v in pairs(KL.rares) do
-        local cellName = UI.CreateFrame("Text", AddonId.."_Cell", KL.grid)
+        local cellName = UI.CreateFrame("Text", AddonId .. "_Cell" .. v.name, KL.grid)
         cellName:SetText(v.name)
-        local cellStatus = UI.CreateFrame("Texture", AddonId.."_cellstatus", KL.grid)
+        local cellStatus = UI.CreateFrame("Texture", AddonId .. "_cellstatus" .. v.name, KL.grid)
         local kill = KL.killed[k]
         if not kill or kill.lastKill < lastReset then
             cellStatus:SetTexture("Rift", "raid_icon_notready.png.dds")
@@ -170,7 +170,11 @@ end
 local function rowComp(a, b)
     local _, at = a[1]:GetTexture()
     local _, bt = b[1]:GetTexture()
-    return at < bt
+    if at == bt then
+        return a[1]:GetName() < b[1]:GetName()
+    else
+        return at < bt
+    end
 end
 
 

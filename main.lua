@@ -121,7 +121,10 @@ local function saveSavedVariables(h, addon)
     end
 end
 
-local function init()
+local function init(h, addon)
+    if addon ~= AddonId then
+        return
+    end
     KL.frame = UI.CreateFrame("SimpleWindow", AddonId.."_KLframe", KL.context)
     -- Set the frame to the top center of the game --
     KL.frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 100, 100)
@@ -161,13 +164,13 @@ local function init()
     KL.listScrollView:SetContent(KL.grid)
 
     -- Création du bouton déplaçable --
-    KL.buttonMover("KL.Button", KL.context, AddonId, "Textures/ButtonUp.png", AddonId, "Textures/ButtonDown.png", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
+    KL.buttonMover("KL.Button", KL.context, "Rift", "target_portrait_LootPinata.png.dds", "Rift", "target_portrait_LootPinata.png.dds", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
 end
 
 local function rowComp(a, b)
     local _, at = a[1]:GetTexture()
     local _, bt = b[1]:GetTexture()
-    return at > bt
+    return at < bt
 end
 
 
@@ -180,7 +183,7 @@ function KL.show()
         if not kill or kill.lastKill < lastReset then
             v.row[1]:SetTexture("Rift", "raid_icon_notready.png.dds")
         else
-            v.row[1]:SetTexture("Rift", "btn_video_done.png.dds")
+            v.row[1]:SetTexture("Rift", "raid_icon_ready.png.dds")
         end
     end
     local rows = KL.grid:GetRows()

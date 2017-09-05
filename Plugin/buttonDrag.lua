@@ -4,7 +4,10 @@ local Lang = Library.Translate
 
 function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
     local   buttonName = UI.CreateFrame("Texture", buttonName, parentFrame)
-            buttonName:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", KL_mouseDataX, KL_mouseDataY)
+    if not MINIMAPDOCKER then
+        buttonName:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", KL_mouseDataX, KL_mouseDataY)
+	end
+
 
             if imgNameDown then
                 buttonName:SetTexture(imgRootDown, imgNameDown)
@@ -38,7 +41,12 @@ function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDo
                     self:SetTexture(imgRootDown, imgNameDown)
                 end
             end, "dragCursorOut") 
-            KL.buttonMovable(buttonName, parentFrame)
+
+            if MINIMAPDOCKER then
+                MINIMAPDOCKER.Register(AddonId, buttonName)
+            else
+                KL.buttonMovable(buttonName, parentFrame)
+            end
 
     return buttonName
 end

@@ -3,42 +3,42 @@ local AddonId = toc.identifier
 local Lang = Library.Translate
 
 KL.rares = {
-    ["U1AD8C1573848F38B"] = {name = "Sleet Stalker"},
-    ["U522B0D883A4238D3"] = {name = "Murder Bot 9000"},
-    ["U0ED05A240ECE960B"] = {name = "Blackroot"},
-    ["U0ED05A251F275918"] = {name = "Duplicant Prime"},
-    ["U522B0D850FC18FEC"] = {name = "Icefang"},
-    ["U0ED05A27394BC77E"] = {name = "Bloodfeather"},
-    ["U1AD8C15C0419AADD"] = {name = "Copy Cat"},
-    ["U1AD8C15B7B23E7CC"] = {name = "Skinwalker"},
-    ["U0ED05A215C4C6524"] = {name = "Kanteh"},
-    ["U1AD8C15F369ADB00"] = {name = "Chomper"},
-    ["U1AD8C15A6AF53CFF"] = {name = "Orinash Windborne"},
-    ["U1AD8C16402ABF24A"] = {name = "Primus Cataphractarii Lancer"},
-    ["U1AD8C1651381B55B"] = {name = "Primus Veles"},
-    ["U522B0D86183FB2FD"] = {name = "Oxidizer"},
-    ["U1AD8C163727DCF45"] = {name = "Primus Auxilia"},
-    ["U1AD8C1674DD422BE"] = {name = "Primus Augur"},
-    ["U1AD8C1663CFE7FA8"] = {name = "Primus Hastati"},
-    ["U1AD8C16047F09E16"] = {name = "C1A3 Recon Model IIV Mk3.0"},
-    ["U1AD8C15D15766D22"] = {name = "C2A1 Battle Model II Mk1"},
-    ["U1AD8C16261070474"] = {name = "Tornadax"},
-    ["U1AD8C1685E02E58F"] = {name = "Primus Eria"},
-    ["U0ED05A1E11C334F0"] = {name = "Trenton Zozula"},
-    ["U0ED05A203317A2D6"] = {name = "Ai-Orii-i-iah"},
-    ["U0ED05A1F2239FFC1"] = {name = "Experiment Alpha-1"},
-    ["U0ED05A26281D1C69"] = {name = "Samova"},
-    ["U30697E250F651519"] = {name = "Primus Evocatus"},
-    ["U1AD8C159599F79EE"] = {name = "Frigid Claw"},
-    ["U522B0D894AB8E321"] = {name = "Teknha"},
-    ["U1AD8C15E25AC1033"] = {name = "C2A2 Battle Model III Mk1.1"},
-    ["U0ED05A237D90D33A"] = {name = "Eliminatus Prime"},
-    ["U1AD8C16150294167"] = {name = "Bloodseraph Riancha"},
-    ["U1AD8C15848A6B699"] = {name = "Frost Paw"},
-    ["U1AD8C1551E2405B5"] = {name = "Ai-ichak"},
-    ["U0ED05A226CBA2835"] = {name = "Walking Death"},
-    ["U1AD8C1562F12C8BA"] = {name = "Experiment Alpha-2"},
-    ["U522B0D87291475C2"] = {name = "Alsbeth the Discordant"},
+    ["U1AD8C1573848F38B"] = {name = Lang.SLEETSTALKER},
+    ["U522B0D883A4238D3"] = {name = Lang.MURDERBOT},
+    ["U0ED05A240ECE960B"] = {name = Lang.BLACKROOT},
+    ["U0ED05A251F275918"] = {name = Lang.DUPLICANTPRIME},
+    ["U522B0D850FC18FEC"] = {name = Lang.ICEFANG},
+    ["U0ED05A27394BC77E"] = {name = Lang.BLOODFEATHER},
+    ["U1AD8C15C0419AADD"] = {name = Lang.COPYCAT},
+    ["U1AD8C15B7B23E7CC"] = {name = Lang.SKINWALKER},
+    ["U0ED05A215C4C6524"] = {name = Lang.KANTEH},
+    ["U1AD8C15F369ADB00"] = {name = Lang.CHOMPER},
+    ["U1AD8C15A6AF53CFF"] = {name = Lang.ORINASHWINDBORNE},
+    ["U1AD8C16402ABF24A"] = {name = Lang.PRIMUSCATAPHRACTARILLANCER},
+    ["U1AD8C1651381B55B"] = {name = Lang.PRIMUSVELES},
+    ["U522B0D86183FB2FD"] = {name = Lang.OXIDIZER},
+    ["U1AD8C163727DCF45"] = {name = Lang.PRIMUSAUXILIA},
+    ["U1AD8C1674DD422BE"] = {name = Lang.PRIMUSAUGUR},
+    ["U1AD8C1663CFE7FA8"] = {name = Lang.PRIMUSHASTATI},
+    ["U1AD8C16047F09E16"] = {name = Lang.C1A3RECONMODEL},
+    ["U1AD8C15D15766D22"] = {name = Lang.C2A1BATTLEMODEL},
+    ["U1AD8C16261070474"] = {name = Lang.TORNADAX},
+    ["U1AD8C1685E02E58F"] = {name = Lang.PRIMUSERIA},
+    ["U0ED05A1E11C334F0"] = {name = Lang.TRENTONZOZULA},
+    ["U0ED05A203317A2D6"] = {name = Lang.AIORIIIIAH},
+    ["U0ED05A1F2239FFC1"] = {name = Lang.EXPERIMENTALPHAONE},
+    ["U0ED05A26281D1C69"] = {name = Lang.SAMOVA},
+    ["U30697E250F651519"] = {name = Lang.PRIMUSEVOCATUS},
+    ["U1AD8C159599F79EE"] = {name = Lang.FRIGIDCLAW},
+    ["U522B0D894AB8E321"] = {name = Lang.TEKNHA},
+    ["U1AD8C15E25AC1033"] = {name = Lang.C2A2BATTLEMODEL},
+    ["U0ED05A237D90D33A"] = {name = Lang.ELIMINATUSPRIME}, -- petit probleme quand on le tue mais que quelqu'un l'avait deja pull. il ne compte pas dans la liste --
+    ["U1AD8C16150294167"] = {name = Lang.BLOODSERAPHRIANCHA},
+    ["U1AD8C15848A6B699"] = {name = Lang.FROSTPAW},
+    ["U1AD8C1551E2405B5"] = {name = Lang.AIICHAK},
+    ["U0ED05A226CBA2835"] = {name = Lang.WALKINGDEATH},
+    ["U1AD8C1562F12C8BA"] = {name = Lang.EXPERIMENTALPATWO},
+    ["U522B0D87291475C2"] = {name = Lang.ALSBETHTHEDISCORDANT},
 }
 
 KL.context = UI.CreateContext("KillList")
@@ -128,11 +128,7 @@ local function init()
     KL.frame:SetVisible(false)
     KL.frame:SetLayer(1)
     KL.frame:SetAlpha(1)
-    KL.frame:SetCloseButtonVisible(true) 
-
-    KL.buttonMovable(KL.frame, KL.context)
-
-    -- Ajout du titre de la fenêtre -- 
+    KL.frame:SetCloseButtonVisible(true)
     KL.frame:SetTitle(AddonId)  
     
     KL.listScrollView = UI.CreateFrame("SimpleScrollView", AddonId.."_listScrollView", KL.frame)
@@ -174,8 +170,16 @@ local function rowComp(a, b)
     return at > bt
 end
 
-local function show()       
-    KL.frame:SetVisible(true)
+local function show()
+    -- Affiche ou non de la fenêtre --
+    if not KL.frame.visible then
+        KL.frame:SetVisible(true)
+    else
+        KL.frame:SetVisible(false)
+    end
+    -- inverse l'affichage -- 
+    KL.frame.visible = not KL.frame.visible 
+
     local lastReset = resetTime()
     local killed_rows = {}
     for k, v in pairs(KL.rares) do

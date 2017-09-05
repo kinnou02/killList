@@ -5,26 +5,16 @@ local Lang = Library.Translate
 function KL.buttonMover(buttonName, parentFrame, visibleFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
     local   buttonName = UI.CreateFrame("Texture", buttonName, parentFrame)
             buttonName:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", KL_mouseDataX, KL_mouseDataY)
+
             if imgNameDown then
                 buttonName:SetTexture(imgRootDown, imgNameDown)
             end
+
             if KL_buttonActive == true then
                 buttonName:SetVisible(true)
             else                
                 buttonName:SetVisible(false)
             end
-
-            buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
-                if imgNameUp then
-                    self:SetTexture(imgRootUp, imgNameUp)
-                end
-                if not visibleFrame.visible then
-                    visibleFrame:SetVisible(true)
-                else
-                    visibleFrame:SetVisible(false)
-                end 
-                visibleFrame.visible = not visibleFrame.visible
-            end, "dragLeftClick")
 
             buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.In, function(self)
                 if imgNameUp then
@@ -33,12 +23,23 @@ function KL.buttonMover(buttonName, parentFrame, visibleFrame, imgRootUp, imgNam
             end, "dragCursorIn")
 
             buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.Out, function(self)
-                if not visibleFrame.visible then
-                    if imgNameDown then
-                        self:SetTexture(imgRootDown, imgNameDown)
-                    end
+                if imgNameDown then
+                    self:SetTexture(imgRootDown, imgNameDown)
                 end
             end, "dragCursorOut") 
+
+            -- Ouverture de la fenêtre au click droit --
+            buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
+                -- Assignation de l'image s'il y en a une --
+                if imgNameUp then
+                    self:SetTexture(imgRootUp, imgNameUp)
+                end
+
+                -- Affichage ou non de la fenêtre --
+                parentFrame:SetSecureMode("restricted")
+                self:SetSecureMode("restricted")
+                self:EventMacroSet(Event.UI.Input.Mouse.Left.Click, "/killlist")
+            end, "dragLeftClick")
 
             KL.buttonMovable(buttonName, parentFrame)
 

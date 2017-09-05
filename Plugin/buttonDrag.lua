@@ -8,45 +8,44 @@ function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDo
         buttonName:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", KL_mouseDataX, KL_mouseDataY)
 	end
 
+    if imgNameDown then
+        buttonName:SetTexture(imgRootDown, imgNameDown)
+    end
 
-            if imgNameDown then
-                buttonName:SetTexture(imgRootDown, imgNameDown)
-            end
+    if KL_buttonActive == true then
+        buttonName:SetVisible(true)
+    else                
+        buttonName:SetVisible(false)
+    end
 
-            if KL_buttonActive == true then
-                buttonName:SetVisible(true)
-            else                
-                buttonName:SetVisible(false)
-            end
+    buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
+        if imgNameUp then
+            self:SetTexture(imgRootUp, imgNameUp)
+        end
+        if not KL.frame:GetVisible() then
+            KL.show()
+        else
+            KL.hide()
+        end
+    end, "dragLeftClick")
 
-            buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
-                if imgNameUp then
-                    self:SetTexture(imgRootUp, imgNameUp)
-                end
-                if not KL.frame:GetVisible() then
-                    KL.show()
-                else
-                    KL.hide()
-                end
-            end, "dragLeftClick")
+    buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.In, function(self)
+        if imgNameUp then
+            self:SetTexture(imgRootUp, imgNameUp)
+        end
+    end, "dragCursorIn")
 
-            buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.In, function(self)
-                if imgNameUp then
-                    self:SetTexture(imgRootUp, imgNameUp)
-                end
-            end, "dragCursorIn")
+    buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.Out, function(self)
+        if imgNameDown then
+            self:SetTexture(imgRootDown, imgNameDown)
+        end
+    end, "dragCursorOut") 
 
-            buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.Out, function(self)
-                if imgNameDown then
-                    self:SetTexture(imgRootDown, imgNameDown)
-                end
-            end, "dragCursorOut") 
-
-            if MINIMAPDOCKER then
-                MINIMAPDOCKER.Register(AddonId, buttonName)
-            else
-                KL.buttonMovable(buttonName, parentFrame)
-            end
+    if MINIMAPDOCKER then
+        MINIMAPDOCKER.Register(AddonId, buttonName)
+    else
+        KL.buttonMovable(buttonName, parentFrame)
+    end
 
     return buttonName
 end

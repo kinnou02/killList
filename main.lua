@@ -164,7 +164,7 @@ local function init(h, addon)
     KL.listScrollView:SetContent(KL.grid)
 
     -- Création du bouton déplaçable --
-    KL.buttonMover("KL.Button", KL.context, "Rift", "target_portrait_LootPinata.png.dds", "Rift", "target_portrait_LootPinata.png.dds", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
+    KL.buttonMover("KL.Button", KL.context, "Rift", "indicator_collossus_fire.png.dds", "Rift", "minimap_i5A.dds", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
 end
 
 local function rowComp(a, b)

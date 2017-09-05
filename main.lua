@@ -153,7 +153,7 @@ local function init()
         if not kill or kill.lastKill < lastReset then
             cellStatus:SetTexture("Rift", "raid_icon_notready.png.dds")
         else
-            cellStatus:SetTexture("Rift", "btn_video_done.png.dds")
+            cellStatus:SetTexture("Rift", "raid_icon_ready.png.dds")
         end
         v.row = {cellStatus, cellName}
         KL.grid:AddRow(v.row)
@@ -161,7 +161,7 @@ local function init()
     KL.listScrollView:SetContent(KL.grid)
 
     -- Création du bouton déplaçable --
-    KL.buttonMover("KL.Button", KL.context, KL.frame, AddonId, "Textures/ButtonUp.png", AddonId, "Textures/ButtonDown.png", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
+    KL.buttonMover("KL.Button", KL.context, AddonId, "Textures/ButtonUp.png", AddonId, "Textures/ButtonDown.png", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
 end
 
 local function rowComp(a, b)
@@ -170,16 +170,9 @@ local function rowComp(a, b)
     return at > bt
 end
 
-local function show()
-    -- Affiche ou non de la fenêtre --
-    if not KL.frame.visible then
-        KL.frame:SetVisible(true)
-    else
-        KL.frame:SetVisible(false)
-    end
-    -- inverse l'affichage -- 
-    KL.frame.visible = not KL.frame.visible 
 
+function KL.show()       
+    KL.frame:SetVisible(true)
     local lastReset = resetTime()
     local killed_rows = {}
     for k, v in pairs(KL.rares) do
@@ -195,6 +188,11 @@ local function show()
     KL.grid:SetRows(rows)
 end
 
+function KL.hide()       
+    KL.frame:SetVisible(false)
+end
+
+
 local function killList(h, args)
     if args:find("debug") then
         KL.debug = not KL.debug
@@ -206,7 +204,7 @@ local function killList(h, args)
     elseif args:find("cli") then
         killed()
     else
-        show()
+        KL.show()
     end
 end
 

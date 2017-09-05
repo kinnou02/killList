@@ -2,7 +2,7 @@ local toc, KL = ...
 local AddonId = toc.identifier
 local Lang = Library.Translate
 
-function KL.buttonMover(buttonName, parentFrame, visibleFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
+function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
     local   buttonName = UI.CreateFrame("Texture", buttonName, parentFrame)
             buttonName:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", KL_mouseDataX, KL_mouseDataY)
 
@@ -16,6 +16,17 @@ function KL.buttonMover(buttonName, parentFrame, visibleFrame, imgRootUp, imgNam
                 buttonName:SetVisible(false)
             end
 
+            buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
+                if imgNameUp then
+                    self:SetTexture(imgRootUp, imgNameUp)
+                end
+                if not KL.frame:GetVisible() then
+                    KL.show()
+                else
+                    KL.hide()
+                end
+            end, "dragLeftClick")
+
             buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.In, function(self)
                 if imgNameUp then
                     self:SetTexture(imgRootUp, imgNameUp)
@@ -27,20 +38,6 @@ function KL.buttonMover(buttonName, parentFrame, visibleFrame, imgRootUp, imgNam
                     self:SetTexture(imgRootDown, imgNameDown)
                 end
             end, "dragCursorOut") 
-
-            -- Ouverture de la fenêtre au click droit --
-            buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
-                -- Assignation de l'image s'il y en a une --
-                if imgNameUp then
-                    self:SetTexture(imgRootUp, imgNameUp)
-                end
-
-                -- Affichage ou non de la fenêtre --
-                parentFrame:SetSecureMode("restricted")
-                self:SetSecureMode("restricted")
-                self:EventMacroSet(Event.UI.Input.Mouse.Left.Click, "/killlist")
-            end, "dragLeftClick")
-
             KL.buttonMovable(buttonName, parentFrame)
 
     return buttonName

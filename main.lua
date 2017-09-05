@@ -50,7 +50,7 @@ local function death(handle, info)
         KL.killed[unit.type] = {lastKill = Inspect.Time.Server()}
         KL.rares[unit.type].row[1]:SetTexture("Rift", "raid_icon_ready.png.dds")
     elseif KL.debug and KL.rares[unit.type] then
-        dump(KL.rares[unit.type])
+        dump(unit)
     end
 end
 

@@ -18,10 +18,9 @@
 		KLBUTTONACTIVE = "Bouton actif",
 		KLBUTTONNOTACTIVE = "Bouton inactif",
 
-    	COPYCAT = "Copy Cat",
-    	SKINWALKER = "Skinwalker",
-    	ICEFANG = "Icefang",
-    	
+        ICEFANG = "Icefang",
+    	COPYCAT = "Imitatrice",
+    	SKINWALKER = "Marchepeau",    	
 		SLEETSTALKER = "Traqueur de neige",
     	MURDERBOT = "Robotueur 9000",
     	BLACKROOT = "Noiracine",

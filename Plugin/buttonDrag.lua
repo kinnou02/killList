@@ -19,9 +19,6 @@ function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDo
     end
 
     buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
-        if imgNameUp then
-            self:SetTexture(imgRootUp, imgNameUp)
-        end
         if not KL.frame:GetVisible() then
             KL.show()
         else
@@ -37,7 +34,12 @@ function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDo
 
     buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.Out, function(self)
         if imgNameDown then
-            self:SetTexture(imgRootDown, imgNameDown)
+            -- Affiche le bouton en Hover ou non selon si la fenetre est ouverte ou fermée
+            if not KL.frame:GetVisible() then
+                self:SetTexture(imgRootDown, imgNameDown)
+            else
+                self:SetTexture(imgRootDown, imgNameUp)
+            end
         end
     end, "dragCursorOut") 
 

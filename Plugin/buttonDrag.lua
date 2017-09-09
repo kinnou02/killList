@@ -2,7 +2,7 @@ local toc, KL = ...
 local AddonId = toc.identifier
 local Lang = Library.Translate
 
-function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
+function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, imgWidth, imgHeight, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
     local   buttonName = UI.CreateFrame("Texture", buttonName, parentFrame)
     if not MINIMAPDOCKER then
         buttonName:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", KL_mouseDataX, KL_mouseDataY)
@@ -10,6 +10,13 @@ function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDo
 
     if imgNameDown then
         buttonName:SetTexture(imgRootDown, imgNameDown)
+        buttonName:SetWidth(30)
+        buttonName:SetHeight(30)
+    end
+
+    if imgNameDown or imgNameUp then
+        buttonName:SetWidth(imgWidth)
+        buttonName:SetHeight(imgHeight)
     end
 
     if KL_buttonActive == true then

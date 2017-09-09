@@ -18,7 +18,7 @@
 		KLBUTTONACTIVE = "Bouton actif",
 		KLBUTTONNOTACTIVE = "Bouton inactif",
 
-        ICEFANG = "Icefang",
+        ICEFANG = "Glacecroc",
     	COPYCAT = "Imitatrice",
     	SKINWALKER = "Marchepeau",    	
 		SLEETSTALKER = "Traqueur de neige",

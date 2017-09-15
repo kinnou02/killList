@@ -32,7 +32,7 @@ KL.rares = {
     ["U1AD8C159599F79EE"] = {name = Lang.FRIGIDCLAW},
     ["U522B0D894AB8E321"] = {name = Lang.TEKNHA},
     ["U1AD8C15E25AC1033"] = {name = Lang.C2A2BATTLEMODEL},
-    ["U0ED05A237D90D33A"] = {name = Lang.ELIMINATUSPRIME}, -- petit probleme quand on le tue mais que quelqu'un l'avait deja pull. il ne compte pas dans la liste --
+    ["U0ED05A237D90D33A"] = {name = Lang.ELIMINATUSPRIME},
     ["U1AD8C16150294167"] = {name = Lang.BLOODSERAPHRIANCHA},
     ["U1AD8C15848A6B699"] = {name = Lang.FROSTPAW},
     ["U1AD8C1551E2405B5"] = {name = Lang.AIICHAK},
@@ -164,7 +164,7 @@ local function init(h, addon)
     KL.listScrollView:SetContent(KL.grid)
 
     -- Création du bouton déplaçable --
-    KL.buttonMover("KL.Button", KL.context, "Rift", "target_portrait_LootPinata.png.dds", "Rift", "target_portrait_LootPinata.png.dds", KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
+    KL.buttonMover("KL.Button", KL.context, AddonId, "Textures/ButtonUp.png", AddonId, "Textures/ButtonDown.png", 28, 28, KL_mouseData.x, KL_mouseData.y, KL_buttonActive)
 end
 
 local function rowComp(a, b)

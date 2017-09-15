@@ -2,51 +2,59 @@ local toc, KL = ...
 local AddonId = toc.identifier
 local Lang = Library.Translate
 
-function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
+function KL.buttonMover(buttonName, parentFrame, imgRootUp, imgNameUp, imgRootDown, imgNameDown, imgWidth, imgHeight, KL_mouseDataX, KL_mouseDataY, KL_buttonActive)
     local   buttonName = UI.CreateFrame("Texture", buttonName, parentFrame)
     if not MINIMAPDOCKER then
         buttonName:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", KL_mouseDataX, KL_mouseDataY)
 	end
 
+    if imgNameDown then
+        buttonName:SetTexture(imgRootDown, imgNameDown)
+        buttonName:SetWidth(30)
+        buttonName:SetHeight(30)
+    end
 
-            if imgNameDown then
-                buttonName:SetTexture(imgRootDown, imgNameDown)
-            end
+    if imgNameDown or imgNameUp then
+        buttonName:SetWidth(imgWidth)
+        buttonName:SetHeight(imgHeight)
+    end
 
-            if KL_buttonActive == true then
-                buttonName:SetVisible(true)
-            else                
-                buttonName:SetVisible(false)
-            end
+    if KL_buttonActive == true then
+        buttonName:SetVisible(true)
+    else                
+        buttonName:SetVisible(false)
+    end
 
-            buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
-                if imgNameUp then
-                    self:SetTexture(imgRootUp, imgNameUp)
-                end
-                if not KL.frame:GetVisible() then
-                    KL.show()
-                else
-                    KL.hide()
-                end
-            end, "dragLeftClick")
+    buttonName:EventAttach(Event.UI.Input.Mouse.Left.Click, function(self)
+        if not KL.frame:GetVisible() then
+            KL.show()
+        else
+            KL.hide()
+        end
+    end, "dragLeftClick")
 
-            buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.In, function(self)
-                if imgNameUp then
-                    self:SetTexture(imgRootUp, imgNameUp)
-                end
-            end, "dragCursorIn")
+    buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.In, function(self)
+        if imgNameUp then
+            self:SetTexture(imgRootUp, imgNameUp)
+        end
+    end, "dragCursorIn")
 
-            buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.Out, function(self)
-                if imgNameDown then
-                    self:SetTexture(imgRootDown, imgNameDown)
-                end
-            end, "dragCursorOut") 
-
-            if MINIMAPDOCKER then
-                MINIMAPDOCKER.Register(AddonId, buttonName)
+    buttonName:EventAttach(Event.UI.Input.Mouse.Cursor.Out, function(self)
+        if imgNameDown then
+            -- Affiche le bouton en Hover ou non selon si la fenetre est ouverte ou fermée
+            if not KL.frame:GetVisible() then
+                self:SetTexture(imgRootDown, imgNameDown)
             else
-                KL.buttonMovable(buttonName, parentFrame)
+                self:SetTexture(imgRootDown, imgNameUp)
             end
+        end
+    end, "dragCursorOut") 
+
+    if MINIMAPDOCKER then
+        MINIMAPDOCKER.Register(AddonId, buttonName)
+    else
+        KL.buttonMovable(buttonName, parentFrame)
+    end
 
     return buttonName
 end
